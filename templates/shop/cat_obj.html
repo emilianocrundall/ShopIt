@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cat">
+    <h1 class="sub" id="sub_01">{{ catobj.nombre }}</h1>
+    <div class="cat_">
+        {% if not forloop.last %}
+        {% for item in catobj.item_set.all %}
+            <div class="cat_obj">
+                <a href="{% url 'shop:item_detalles' id=item.id %}">
+                    <img class="img_in_cat" src={% if item.imagen %}'{{item.imagen.url}}'{% endif %}>
+                    <p class="p_item_cat2">{{ item.nombre }}</p>
+                    <p class="p_item_cat">{{ item.precio }}</p>
+                </a>
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="cat_res">
+        <h1 class="sub">{{ catobj.nombre }}</h1>
+        {% for item in catobj.item_set.all %}
+        <div class="cat_obj3">
+            <a href="{% url 'shop:item_detalles' id=item.id %}">
+                <img class="img_in_cat" src={% if item.imagen %}'{{item.imagen.url}}'{% endif %}>
+                <p class="p_item_cat2">{{ item.nombre }}</p>
+                <p class="p_item_cat">{{ item.precio }}</p>
+            </a>
+        </div>
+    {% endfor %} 
+    </div>
+</div>
+{% if not catobj.item_set.all %}
+        <h4 class="sub text-center">Lo sentimos, no hay productos por el momento</h4>
+    {% endif %}
+{% endblock %}
+
+<p>{{ item.nombre }}</p>
+<p>{{ item.precio }}</p>

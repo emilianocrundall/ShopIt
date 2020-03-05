@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="padding-top: 120px;">
+    <h1 class="sub">Categorias</h1>
+</div>
+<div class="p-4">
+    <nav class="category">
+        <ul>
+            {% for cats in cat %}
+                <li><a href="{% url 'shop:cat_obj' id=cats.id %}">{{ cats.nombre }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

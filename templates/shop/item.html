@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="item_cont">
+    <p class="item_nombre">{{ get_item.nombre }}</p>
+    <div class="item_cont_1">
+        <img class="item_img" src={% if get_item.imagen %}'{{get_item.imagen.url}}'{% endif %}>
+        <form id="añadir_fav_form">
+        {% csrf_token %}
+        {% if is_favourite %}
+            <button value="{{ get_item.id }}" type="submit" class="buttonfav" data-toggle="tooltip" title="Quitar de favoritos" ><i class="fas fa-heart icon1"></i></button>
+        {% else %}
+            <button value="{{ get_item.id }}" type="submit" class="buttonfav" data-toggle="tooltip" title="Añadir a favoritos" ><i class="far fa-heart icon1"></i></button>
+        {% endif %}
+        </form> 
+    </div>
+    <div class="item_cont_2">
+        <div class="item_promedio_cal">
+            {% if avg_cal.average_rating <= 1 or avg_cal.average_rating < 1.5 %}
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            {% elif avg_cal.average_rating >= 1.5 and avg_cal.average_rating < 2.5 %}
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            {% elif avg_cal.average_rating >= 2.5 and avg_cal.average_rating < 3.5  %}
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            {% elif avg_cal.average_rating >= 3.5 and avg_cal.average_rating < 4.5 %}
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+            {% elif avg_cal.average_rating >= 4.5 and avg_cal.average_rating <= 5  %}
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            {% endif %}
+        </div>
+        <p class="precio">$ {{ get_item.precio }}</p>
+        {% if is_in_cart %}
+            <button value="{{ get_item.id }}" type="submit" class="buttonremove">Quitar del carrito</button>
+        {% else %}
+            <form id="añadir_carro_form">
+            {% csrf_token %}
+                <label for="">Cantidad: </label>
+                <input type="number" name="cantidad" id="cant">
+                <button value="{{ get_item.id }}" class="buttoncart" type="submit">Añadir al carrito</button>
+            </form>
+        {% endif %}
+        <div class="button_añadido"><p>Añadido!</p></div>
+        <div class="button_removido"><p>Removido!</p></div>
+    </div>
+    <h2 class="desc">Descripcion</h2>
+    <p class="descripcion">{{ get_item.descripcion }}</p>
+    <div class="comentarios">
+        <div class="comment_tit">
+            <h2>Opiniones</h2>
+        </div>
+        {% if request.user.is_authenticated %}
+            <form id="comment_form">
+            {% csrf_token %}
+                <div class="form-group">
+                    <label for="comment">Dejar comentario:</label>
+                    <textarea class="form-control" id="comment" name="texto"></textarea>
+                </div>
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excelente!">5 stars</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Muy bueno">4 stars</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bueno">3 stars</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Regular">2 stars</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Malo">1 star</label>
+                    <input type="hidden" id="radio_value" name="rating_value"/>
+                </fieldset>
+                <div class="form-group">
+                    <div class="errores3"></div>
+                    <button value="{{ get_item.id }}" class="btn_comment" id="submit_comment">Subir</button>
+                </div>
+            </form>
+        {% else %}
+        <p class="p_comment">Registrate o inicia sesion para dar tu opinion</p>
+        {% endif %}
+        <div class="comentarios_gente">
+            <div class="comment_user">
+                <p class="user_comment1"></p>
+                <p class="comment_cal1"></p>
+                <p class="user_fecha_comment1"></p>
+                <p class="comment_text1"></p>
+            </div>
+            {% for comentario in comentarios %}
+            <div class="comment_">
+                <p class="user_comment">{{ comentario.user }}</p>
+                <p class="user_fecha_comment">{{ comentario.fecha }}</p>
+                <p class="comment_cal">
+                    {% if comentario.calificacion == 1 %}
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    {% elif comentario.calificacion == 2 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    {% elif comentario.calificacion == 3 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    {% elif comentario.calificacion == 4 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    {% elif comentario.calificacion == 5 %}
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    {% endif %}
+                </p>
+                <p class="comment_text">{{ comentario.texto }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

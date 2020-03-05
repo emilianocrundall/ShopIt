@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block header %}
+<div class="header">
+    <div class="titulo_principal">
+        <a href="{% url 'shop:index' %}">ShopIT</a>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="corp" style="background-color: #1f1f1f; padding: 30px;">
+    <div style="background-color: #6a5975; display: grid;grid-template-columns: 50% 50%;padding: 30px; padding-top: 80px;">
+        {% if request.user.is_authenticated %}
+            <h1 class="sub" style="grid-row:1">{{ request.user.username }}</h1>
+        {% endif %}
+        <div style="background-color: #d0c5c8; grid-row:2;grid-column: 1/3; padding: 30px;">
+            <p style="font-family: 'Barlow Condensed', sans-serif;font-size:20px">A partir de este momento podras añadir productos al carrito de compras y guardar productos que te interesaria adquirir en un futuro</p>
+            <a href="{% url 'shop:carrito' %}" data-toggle="tooltip" title="Ver Carrito" class="links"><i class="fas fa-cart-plus"></i></a>
+            <a href="{% url 'shop:favs' %}" data-toggle="tooltip" title="Items Guardados" class="links"><i class="far fa-heart"></i></a>
+        </div>
+        <div  style="grid-row: 3;grid-column: 2; padding: 20px;">
+            <a class="ver_ahora2" href="{% url 'logout' %}" style="float:right">Salir</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

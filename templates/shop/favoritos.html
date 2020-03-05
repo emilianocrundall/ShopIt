@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block header %}
+<div class="header">
+    <div class="titulo_principal">
+        <a href="{% url 'shop:index' %}">ShopIT</a>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="fav_tit" style="padding-top: 120px;">
+    <h1 class="sub">Items guardados</h1>
+</div>
+<div class="cat_">
+    {% if not forloop.last %}
+    {% for favorito in favs %}
+    <div class="cat_obj">
+        <a href="{% url 'shop:item_detalles' id=favorito.id %}">
+            <img class="img_in_cat" src={% if favorito.imagen %}'{{favorito.imagen.url}}'{% endif %}>
+            <p class="p_item_cat2">{{ favorito.nombre }}</p>
+            <p class="p_item_cat">$ {{ favorito.precio }}</p>
+        </a>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+<div class="cat_res">
+    <h1 class="sub" style="padding-top: 80px">Favoritos</h1>
+    {% for favorito in favs %}
+    <div class="cat_obj3">
+        <a href="{% url 'shop:item_detalles' id=favorito.id %}">
+            <img class="img_in_cat" src={% if favorito.imagen %}'{{favorito.imagen.url}}'{% endif %}>
+            <p class="p_item_cat2">{{ favorito.nombre }}</p>
+            <p class="p_item_cat">$ {{ favorito.precio }}</p>
+        </a>
+    </div>
+{% endfor %} 
+</div>
+{% endblock %}

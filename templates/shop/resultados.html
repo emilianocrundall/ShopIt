@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block header %}
+{% endblock %}
+{% block content %}
+<div class="resultado_items">
+    <h1 class="sub" id="sub_01">Resultados para tu busqueda</h1>
+    <div class="cat_">
+        {% if not forloop.last %}
+        {% if objetos %}
+        {% for item in objetos %}
+            <div class="cat_obj">
+                <a href="{% url 'shop:item_detalles' id=item.id %}">
+                    <img class="img_in_cat" src={% if item.imagen %}'{{item.imagen.url}}'{% endif %}>
+                    <p class="p_item_cat2">{{ item.nombre }}</p>
+                    <p class="p_item_cat">$ {{ item.precio }}</p>
+                </a>
+            </div>
+        {% endfor %}
+        {% else %}
+        <h3>Lo sentimos no hay resultados diponibles para tu busqueda</h3>
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="cat_res">
+        <h1 class="sub">Resultados para tu busqueda</h1>
+        {% for item in objetos %}
+        <div class="cat_obj3">
+            <a href="{% url 'shop:item_detalles' id=item.id %}">
+                <img class="img_in_cat" src={% if item.imagen %}'{{item.imagen.url}}'{% endif %}>
+                <p class="p_item_cat2">{{ item.nombre }}</p>
+                <p class="p_item_cat">$ {{ item.precio }}</p>
+            </a>
+        </div>
+    {% endfor %} 
+    </div>
+</div>
+
+{% endblock %}
